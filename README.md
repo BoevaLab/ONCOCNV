@@ -1,8 +1,8 @@
 # ONCOCNV
 
-###############################################################################################################
-################## ONCOCNV - a package to detect copy number changes in Deep Sequencing data ##################
-###############################################################################################################
+
+**ONCOCNV - a package to detect copy number changes in Deep Sequencing data**
+
 
 REQUIREMENTS
 
@@ -61,6 +61,7 @@ RUN ONCOCNV
 ---------------------------------------------------------------------------------------------------------------------------
 
 ****************VERY IMPORTANT****************
+
 		Please make sure that:
 	-	There is no duplicates in the coordinates
 	-	Coordinates are sorted
