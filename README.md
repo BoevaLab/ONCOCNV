@@ -21,8 +21,7 @@ REQUIREMENTS
 3. The following R libraries should be installed: MASS, mclust, PSCBS, DNAcopy, R.cache, scales, cwhmisc, fastICA, cghseg, digest
 4. The fasta sequence (one file, unzipped; e.g. "hg19.fa") of the targeted genome should be downloaded from http://hgdownload.soe.ucsc.edu/downloads.html
 5. You need to have your data aligned (.bam files)
-6. You need to have at least **three** control files to construct the baseline (2 controls starting from version 5.4 and JUST **one** control starting from version 5.7)
-   Yet, we recommend to have at least 3 control for good performance of the algorithm
+6. You need to have at least **three** control files to construct a **reliable** baseline. However, ONCOCNV will run with only 2 controls starting from version 5.4 and with JUST **one** control starting from version 5.7. Yet, we recommend to have at least 3 control for good performance of the algorithm.
 
 INSTALLATION
 
