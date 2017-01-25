@@ -148,7 +148,7 @@ createSummaryByGen<- function(output){
         }
         
         comm <- toString(coms[which(!is.na(coms))])
-        pvalFrag<- max(as.numeric(unlist(strsplit(comm, "[=,]"))[6]),as.numeric(unlist(strsplit(comm, "[=,]"))[8]));        
+        pvalFrag<- max(as.numeric(unlist(strsplit(comm, "[=,]"))[6]),as.numeric(unlist(strsplit(comm, "[=,]"))[8]), na.rm=T);        
         
         geneSummary$gene[count] <- gene
         geneSummary$chr[count] <- toString(output$chr[tt][1])
@@ -212,12 +212,12 @@ createSummaryByGen<- function(output){
   }
   p.u<- sort(unique(geneSummary$p.value))
   q.u<- p.adjust(p.u)
-  geneSummary$q.values<-NULL
+  geneSummary$q.value<-rep(NA,length(geneSummary$p.value))
   for (p in p.u) {
-    geneSummary$q.values[which(p == geneSummary$p.value)]<-q.u[which(p.u==p)]    
+    geneSummary$q.value[which(p == geneSummary$p.value)]<-q.u[which(p.u==p)]    
   }
   geneSummary<-
-    geneSummary[c('gene','chr','start','end','copy.number','p.value','q.values','comments')] 
+    geneSummary[c('gene','chr','start','end','copy.number','p.value','q.value','comments')] 
   
   return (geneSummary);
 }

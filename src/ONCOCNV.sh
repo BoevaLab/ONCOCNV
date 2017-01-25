@@ -63,34 +63,45 @@ echo "$DATADIR contains the following files:"
 ls -l $DATADIR 
 
 #get normalized read counts for the control samples
-perl $TOOLDIR/ONCOCNV_getCounts.pl getControlStats -m Ampli -b $targetBed -c $controls -o $OUTDIR/Control.stats.txt 
+echo "running ONCOCNV_getCounts.v$VERSION.pl on control samples"
+perl $TOOLDIR/ONCOCNV_getCounts.v$VERSION.pl getControlStats -m Ampli -b $targetBed -c $controls -o $OUTDIR/Control.stats.txt 
+echo "$OUTDIR/Control.stats.txt was created"
+ls -l $OUTDIR/Control.stats.txt
 
 #get normalized read counts for the tumor samples
-perl $TOOLDIR/ONCOCNV_getCounts.pl getSampleStats -m Ampli -c $OUTDIR/Control.stats.txt -s $tests -o $OUTDIR/Test.stats.txt 
+echo "running ONCOCNV_getCounts.v$VERSION.pl on tumor samples"
+perl $TOOLDIR/ONCOCNV_getCounts.v$VERSION.pl getSampleStats -m Ampli -c $OUTDIR/Control.stats.txt -s $tests -o $OUTDIR/Test.stats.txt 
+echo "$OUTDIR/Test.stats.txt was created"
+ls -l $OUTDIR/Test.stats.txt
 
 #create .bed file with targeted regions
+echo "creating target.bed"
 cat $OUTDIR/Control.stats.txt | grep -v start | awk '{print $1,$2,$3}' | sed "s/ /\t/g" >$OUTDIR/target.bed
+ls -l $OUTDIR/target.bed
  
 #get GC-content per targeted region 
+echo "creating target.GC.txt"
 bedtools getfasta -bed $OUTDIR/target.bed -fi $GENOME -fo $OUTDIR/target.fasta
 perl $TOOLDIR/getGCfromFasta.pl -f $OUTDIR/target.fasta > $OUTDIR/target.GC.txt
 rm $OUTDIR/target.fasta
+ls -l $OUTDIR/target.GC.txt
 
 #process control samples
-cat $TOOLDIR/processControl.R | R --slave --args $OUTDIR/Control.stats.txt $OUTDIR/Control.stats.Processed.txt $OUTDIR/target.GC.txt
+echo "running processControl.v$VERSION.R"
+cat $TOOLDIR/processControl.v$VERSION.R | R --slave --args $OUTDIR/Control.stats.txt $OUTDIR/Control.stats.Processed.txt $OUTDIR/target.GC.txt
 
 #uncomment in case you want to manually limit the number of principal components
 #PCtoKeep=1
-#cat $TOOLDIR/processControl.R | R --slave --args $OUTDIR/Control.stats.txt $OUTDIR/Control.stats.Processed.txt $OUTDIR/target.GC.txt $PCtoKeep
-
+#cat $TOOLDIR/processControl.v$VERSION.R | R --slave --args $OUTDIR/Control.stats.txt $OUTDIR/Control.stats.Processed.txt $OUTDIR/target.GC.txt $PCtoKeep
+ls -l $OUTDIR/Control.stats.Processed.txt
 
 #process test samples and predict CNA and CNVs:
-
+echo "running processSamples.v$VERSION.R"
 #to use cghseg segmentation instead of circular binary segmentation (defaut) please add "chgseg" at the end of the command line:
-cat $TOOLDIR/processSamples.R | R --slave --args $OUTDIR/Test.stats.txt $OUTDIR/Control.stats.Processed.txt $OUTDIR/Test.output.txt cghseg
+cat $TOOLDIR/processSamples.v$VERSION.R | R --slave --args $OUTDIR/Test.stats.txt $OUTDIR/Control.stats.Processed.txt $OUTDIR/Test.output.txt cghseg
 
-######################## default (but often cghseg performs better than the default circular binary segmentation): ########################################
+######### segment data with binary segmentation (it is a default option but often cghseg performs better than the default circular binary segmentation): ########################################
 #using DNAcopy circular binary segmentation (defaut) :
-#cat $TOOLDIR/processSamples.R | R --slave --args $OUTDIR/Test.stats.txt $OUTDIR/Control.stats.Processed.txt $OUTDIR/Test.output.txt
-###########################################################################################################################################################
+#cat $TOOLDIR/processSamples.v$VERSION.R | R --slave --args $OUTDIR/Test.stats.txt $OUTDIR/Control.stats.Processed.txt $OUTDIR/Test.output.txt
+#################################################################################################################################################################################################
 
