@@ -120,12 +120,12 @@ if( $bed ne "" && $command eq "getControlStats"){
 	open FILE, "< $bed " || die "$bed : $!\n";
 	while(<FILE>){
     		chomp;
-		if (/(chr\S+)\s(\d+)\s(\d+)\s(\w+)\s\S+\s(\w+)/) {
+		if (/(chr\S+)\s(\d+)\s(\d+)\s([\w\-\.]+)\s\S+\s([\w\-\.]+)/) {
 			$bedcoord{$1}->{$4}{start}=$2;
 			$bedcoord{$1}->{$4}{end}=$3;
 			$bedcoord{$1}->{$4}{gene}=$5;
 			$numberOfTargetedRegions++;
-		} elsif (/^(\S+)\s(\d+)\s(\d+)\s(\w+)\s\S+\s(\w+)/) {
+		} elsif (/^(\S+)\s(\d+)\s(\d+)\s([a-zA-Z0-9_\-\.]+)\s\S+\s([a-zA-Z0-9_\-\.]+)/) {
 			$bedcoord{$1}->{$4}{start}=$2;
 			$bedcoord{$1}->{$4}{end}=$3;
 			$bedcoord{$1}->{$4}{gene}=$5;
@@ -201,11 +201,11 @@ if( $command eq "getSampleStats"){
 	open FILE, "< $control " || die "$control : $!\n";
 	while(<FILE>){
     		chomp;
-		if (/(chr\S+)\s(\d+)\s(\d+)\s([\w\.]+)\s([\w\.]+)/) {
+		if (/(chr\S+)\s(\d+)\s(\d+)\s([\w\-\.]+)\s([\w\-\.]+)/) {
 			$bedcoord{$1}->{$4}{start}=$2;
 			$bedcoord{$1}->{$4}{end}=$3;
 			$bedcoord{$1}->{$4}{gene}=$5;
-		} elsif (/^(\S+)\s(\d+)\s(\d+)\s([\w\.]+)\s([\w\.]+)/) {
+		} elsif (/^(\S+)\s(\d+)\s(\d+)\s([\w\-\.]+)\s([\w\-\.]+)/) {
 			$bedcoord{$1}->{$4}{start}=$2;
 			$bedcoord{$1}->{$4}{end}=$3;
 			$bedcoord{$1}->{$4}{gene}=$5;
