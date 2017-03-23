@@ -608,7 +608,7 @@ sink(outputFile, append=FALSE,split=FALSE)
 for (tumorID in (1:ntum)) {    
   cat(names(tumors)[4+tumorID]);cat("\n");
   observations <- tumors[,4+tumorID ]
-  if (length(which(observations==0))/length(observations)>0.3) {next;} 
+  if (length(which(observations==0))/length(observations)>0.3) {warning(paste("Skip",names(tumors)[4+tumorID]," as it contains more than 30% of zero read counts"), call. = TRUE, immediate. = T);next;} 
   totalTargetLen<-sum(observations*data$len)  
   observations <- observations*data$len/totalTargetLen*length(data$len)
   
@@ -1237,7 +1237,7 @@ for (tumorID in (1:ntum)) {
                 #pvalue_absMeanRatio <- pnorm(AbsMeanSigmaRatio,sd=1/sqrt(length(tt)),lower.tail = FALSE)            
                 output[outputGeneInd,]$pvalRatioCorrected[tt] <- ttestPvalRatio[i] 
               }
-              if(min(ttestPvalRatio) > 0.01) {perGeneEvaluation2=2}
+              if(min(ttestPvalRatio, na.rm = T) > 0.01) {perGeneEvaluation2=2}
             }            
             #we somehow can explain the observed values with the gene-specific ratio:              
             output[outputGeneInd,]$predLargeCorrected <- perGeneEvaluation2
