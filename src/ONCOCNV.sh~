@@ -100,6 +100,6 @@ cat $TOOLDIR/processSamples.R | R --slave --args $OUTDIR/Test.stats.txt $OUTDIR/
 
 ######### segment data with binary segmentation (it is a default option but often cghseg performs better than the default circular binary segmentation): ########################################
 #using DNAcopy circular binary segmentation (defaut) :
-#cat $TOOLDIR/processSamples.R | R --slave --args $OUTDIR/Test.stats.txt $OUTDIR/Control.stats.Processed.txt $OUTDIR/Test.output.txt
+#cat $TOOLDIR/processSamples.v$VERSION.R | R --slave --args $OUTDIR/Test.stats.txt $OUTDIR/Control.stats.Processed.txt $OUTDIR/Test.output.txt
 #################################################################################################################################################################################################
 
