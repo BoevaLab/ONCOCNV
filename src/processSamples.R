@@ -483,7 +483,7 @@ predictClust<- function(chrom,pos, ratio, outfit){
 	nRealClusters <- length(pro)
 
 	if (nRealClusters-length(largeClusters) != length(unique(predMclust[!is.na(predMclust)]))) {
-      cat("This situation should never happen.. Will cluster with equal variance")
+      cat("Hmm.. Will cluster with equal variance")
       #should never happen
 			aMclust <- Mclust(a,modelName = "E",G=7) 	
 			nRealClusters <- length(unique(aMclust$classification))
@@ -492,18 +492,18 @@ predictClust<- function(chrom,pos, ratio, outfit){
 			pro <- aMclust$parameters$pro
 			predMclust <- aMclust$classification
 			for (i in rev(2:G)) {
-			if (means[i]-means[i-1]<distToMerge) { #merge the two clusters
-			means[i-1]<-(pro[i-1]*means[i-1] + pro[i]*means[i]) /(pro[i-1]+pro[i])
-			means<-means[-i]
-			pro[i-1]<-pro[i-1]+pro[i]
-			pro<-pro[-i]
-			if (length(which(predMclust==i))>0) {
-				predMclust[predMclust==i]<-rep(i-1,length(which(predMclust==i)))
-			}
-			}
+  			if (means[i]-means[i-1]<distToMerge) { #merge the two clusters
+    			means[i-1]<-(pro[i-1]*means[i-1] + pro[i]*means[i]) /(pro[i-1]+pro[i])
+    			means<-means[-i]
+    			pro[i-1]<-pro[i-1]+pro[i]
+    			pro<-pro[-i]
+    			if (length(which(predMclust==i))>0) {
+    				predMclust[predMclust==i]<-rep(i-1,length(which(predMclust==i)))
+    			}
+  			}
 			}
 			nRealClusters <- length(pro)
-			if (nRealClusters != length(unique(predMclust))) {	print("Error!!!!!!!!!");return();}
+			if (nRealClusters != length(unique(predMclust))) {	print("Oups! Will try again!\n");return();}
       vars<-rep(aMclust$parameters$variance$sigmasq,length(means));      
       x=means
       y<-rep(0,length(x))
@@ -745,6 +745,9 @@ for (tumorID in (1:ntum)) {
   
   for (count in c(1:numberOfIterationsToFindZero)) {
     predict<-predictClust(chrom = data$chr,pos = data$start, ratio=obsRec, outfit=fit$output)
+    while (is.null(predict)) {
+      predict<-predictClust(chrom = data$chr,pos = data$start, ratio=obsRec, outfit=fit$output)
+    }
     zero <-predict$zero
     print(zero)
     if (abs(zero)<abs(myzero)) {
