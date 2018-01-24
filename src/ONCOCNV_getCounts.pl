@@ -1,3 +1,4 @@
+#!/usr/bin/perl -w
 # This file is part of ONCOCNV - a tool to detect copy number alterations in amplicon sequencing data
 # Copyright (C) 2014 OncoDNA
 
@@ -15,7 +16,6 @@
 
 #Author: Valentina BOEVA
 
-#!/usr/bin/perl -w
 
 =pod
 
