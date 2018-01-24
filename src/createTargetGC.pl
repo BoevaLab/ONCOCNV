@@ -16,7 +16,6 @@
 
 #Author: Valentina BOEVA
 
-
 =pod
 
 =head1 NAME
