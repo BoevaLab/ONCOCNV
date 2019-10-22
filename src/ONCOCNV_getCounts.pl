@@ -50,7 +50,7 @@ use POSIX;
 use strict;
 use warnings;
 use diagnostics;
-
+open ERR, "> error.txt " || die "cannot open error.txt : $!\n";
 
 my $usage = qq{    
 
