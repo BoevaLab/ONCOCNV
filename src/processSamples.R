@@ -1015,12 +1015,9 @@ for (tumorID in (1:ntum)) {
 	meanGenes<-tapply(output$ratio,output$gene,function(x) { mean(x,na.rm=TRUE,trim=0.1)})
 	AbsMeanSigmaRatio<-tapply(output$ratio,output$gene,function(x) { mean(x,na.rm=TRUE,trim=0.1)})
 	
-	myGeneCount=0
-	       
   for (gene in unique(output$gene)) {
     # if (myGeneCount %% 100 ==1) {   print(myGeneCount);}
-    myGeneCount=myGeneCount+1
-    
+
     tt <- which(data$gene == gene)
     geneSet <- data[tt,]
     geneSet<-geneSet[order(geneSet$start),]   
@@ -1040,6 +1037,7 @@ for (tumorID in (1:ntum)) {
     
     if(length(which(!is.na(geneSetout$ratio)))>0){
       if (ttestpvalRatio < 0.01) { #0.01 instead of 0.05 starting from version 5.0
+        myGeneCount=which(names(meanGenes)==gene)
         perGeneEvaluation <- round(exp(meanGenes[myGeneCount])*4)/2
         #if (perGeneEvaluation!=2 & round(median(geneSetout$ratio*4,na.rm=TRUE))/2==2){perGeneEvaluation <- 2}
       }
@@ -1055,6 +1053,7 @@ for (tumorID in (1:ntum)) {
       output[outputGeneInd,]$pvalRatioCorrected <- output[outputGeneInd,]$pvalRatioGene    
       
     } else {
+      print ("I AM HERE...")
       tt <- which (output[outputGeneInd,]$perGeneEvaluation!=output[outputGeneInd,]$predLargeSeg)      
       coms <- unique(output[outputGeneInd,]$comments)
       for (i in 1:length(coms)) {
