@@ -15,7 +15,7 @@
 
 #Author: Valentina BOEVA
 
-VERSION=6.9
+VERSION=7.0
 
 ###############################################################################################################
 
@@ -90,7 +90,7 @@ cat $TOOLDIR/processControl.R | R --slave --args $OUTDIR/Control.stats.txt $OUTD
 
 #uncomment in case you want to manually limit the number of principal components
 #PCtoKeep=1
-#cat $TOOLDIR/processControl.v$VERSION.R | R --slave --args $OUTDIR/Control.stats.txt $OUTDIR/Control.stats.Processed.txt $OUTDIR/target.GC.txt $PCtoKeep
+#cat $TOOLDIR/processControl.R | R --slave --args $OUTDIR/Control.stats.txt $OUTDIR/Control.stats.Processed.txt $OUTDIR/target.GC.txt $PCtoKeep
 ls -l $OUTDIR/Control.stats.Processed.txt
 
 #process test samples and predict CNA and CNVs:
