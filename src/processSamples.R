@@ -806,7 +806,7 @@ for (tumorID in (1:ntum)) {
 			segStart <- fit$output$start[seg]
 			segEnd <- fit$output$end[seg]
 
-			indLargeSeg <- which(data$chr==chr & data$start>=segStart  & data$start <= segEnd )
+			indLargeSeg <- which(data$chr==chr & data$start>=segStart  & data$end <= segEnd )
 			values <- ratio [indLargeSeg ]
       
       
